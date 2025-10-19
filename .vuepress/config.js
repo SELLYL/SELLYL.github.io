@@ -1,4 +1,5 @@
 module.exports = {
+  // base: '/Silas.github.io/',
   title: 'Silas`s Lab', // 替换为您的博客名，例如 "茂林的科技日志"
   description: '探索前沿科技，分享开发心得',
   theme: 'reco',
