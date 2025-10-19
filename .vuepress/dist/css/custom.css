@@ -1,0 +1,217 @@
+/* 引入科技感字体 */
+:root {
+  --tech-font-heading: 'Orbitron', sans-serif;
+  --tech-font-body: 'Exo 2', sans-serif;
+  --neon-accent: #3eaf7c;
+  --neon-glow: rgba(62, 175, 124, 0.6);
+  --bg-dark: #0a0e17;
+  --bg-card: #1a1f2e;
+}
+
+/* 全局样式 */
+body {
+  font-family: var(--tech-font-body);
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #162447 100%);
+}
+
+/* 导航栏科技感改造 */
+.navbar {
+  background: rgba(10, 14, 23, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(62, 175, 124, 0.3);
+}
+
+.navbar .links {
+  background: transparent !important;
+}
+
+/* 标题字体使用科技感字体 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--tech-font-heading);
+  font-weight: 600;
+}
+
+/* 主页英雄区域 */
+.hero {
+  background: radial-gradient(circle at center, rgba(62, 175, 124, 0.1) 0%, transparent 70%);
+}
+
+.hero h1 {
+  text-shadow: 0 0 10px var(--neon-glow);
+  background: linear-gradient(135deg, var(--neon-accent) 0%, #42b883 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+/* 卡片科技感设计 */
+.reco-theme .content-wrapper, 
+.reco-theme .abstract-wrapper {
+  background: var(--bg-card) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.reco-theme .abstract-wrapper:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon-accent);
+  box-shadow: 0 12px 40px rgba(62, 175, 124, 0.2);
+}
+
+/* 链接和按钮的霓虹效果 */
+a {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--neon-accent) !important;
+  text-shadow: 0 0 8px var(--neon-glow);
+}
+
+/* 代码块科技感样式 */
+pre[class*="language-"] {
+  background: #1e1e1e !important;
+  border: 1px solid rgba(62, 175, 124, 0.3);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+code {
+  font-family: 'Fira Code', monospace !important;
+}
+
+/* 时间轴样式美化 */
+.timeline-wrapper .year {
+  color: var(--neon-accent);
+  font-family: var(--tech-font-heading);
+}
+
+.timeline-wrapper .timeline-item {
+  border-left: 2px solid var(--neon-accent);
+}
+
+
+/* 响应式宽度控制 */
+.main-container {
+  max-width: 90% !important;
+  margin: 0 auto !important;
+}
+
+@media (min-width: 1440px) {
+  .main-container {
+    max-width: 1400px !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  .main-container {
+    max-width: 1600px !important;
+  }
+}
+
+/* 导航栏同步 */
+.navbar {
+  max-width: 90% !important;
+  margin: 0 auto !important;
+}
+
+@media (min-width: 1440px) {
+  .navbar {
+    max-width: 1400px !important;
+  }
+}
+
+/* 主页英雄区域扩展 */
+.hero {
+  max-width: 90% !important;
+  margin: 0 auto !important;
+}
+
+/* 博客列表布局优化 */
+.home-blog-wrapper {
+  max-width: none !important;
+  padding: 0 2rem !important;
+}
+
+.feature {
+  max-width: none !important;
+}
+
+/* 确保代码块样式正常 */
+pre[class*="language-"] {
+  background: #1e1e1e !important;
+  border-radius: 8px;
+  margin: 1rem 0;
+  padding: 1.5rem !important;
+}
+
+code[class*="language-"] {
+  background: transparent !important;
+  font-family: 'Fira Code', 'Consolas', monospace !important;
+  font-size: 0.9em;
+}
+
+/* 行号样式 */
+.line-numbers .line-numbers-rows {
+  border-right: 1px solid #444;
+  padding-right: 1rem;
+}
+
+/* 内联代码样式 */
+:not(pre) > code {
+  background: rgba(62, 175, 124, 0.1) !important;
+  color: var(--neon-accent) !important;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* 修复代码块行号遮挡问题 */
+pre[class*="language-"] {
+  padding: 1.5em !important;
+  margin: 1rem 0;
+  border-radius: 8px;
+  background: #1e1e1e !important;
+  overflow: visible !important;
+}
+
+/* 行号样式修复 */
+.line-numbers .line-numbers-rows {
+  border-right: 1px solid #444;
+  padding: 1.5em 1em 1.5em 0 !important;
+  background: #1a1a1a;
+  top: 1.5em !important;
+  width: 3.5em !important;
+}
+
+.line-numbers .line-numbers-rows > span {
+  padding-right: 0.5em !important;
+}
+
+/* 代码内容区域 */
+code[class*="language-"] {
+  background: transparent !important;
+  text-shadow: none !important;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace !important;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+/* 确保代码内容不被行号遮挡 */
+pre[class*="language-"].line-numbers {
+  padding-left: 4.5em !important;
+}
+
+/* 内联代码样式 */
+:not(pre) > code {
+  background: rgba(62, 175, 124, 0.1) !important;
+  color: var(--neon-accent, #3eaf7c) !important;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+

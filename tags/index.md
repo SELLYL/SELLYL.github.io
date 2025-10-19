@@ -1,6 +1,9 @@
 ---
-layout: Tag
+pageComponent: 
+  name: Tag
+  data: 
+    isTag: true
+    key: tag
+    size: large
+    direction: top
 ---
-<script setup>
-// 这个页面由 Reco 主题自动渲染标签云
-</script>
