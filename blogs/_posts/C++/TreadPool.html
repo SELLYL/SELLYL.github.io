@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>C++新特性构建线程池 | Silas`s Lab</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Exo+2:wght@300;400;500;600&amp;display=swap">
+    <link rel="stylesheet" href="/css/custom.css">
+    <script src="/js/effects.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // 延迟执行以确保 DOM 完全加载
+        setTimeout(function() {
+          if (typeof Prism !== 'undefined') {
+            Prism.highlightAll();
+          }
+        }, 100);
+        
+        // 监听路由变化，在页面切换时重新高亮
+        if (typeof window !== 'undefined' && window.$vuepress) {
+          window.$vuepress.router.afterEach(function() {
+            setTimeout(function() {
+              if (typeof Prism !== 'undefined') {
+                Prism.highlightAll();
+              }
+            }, 200);
+          });
+        }
+      });
+  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf_viewer.min.css">
+    <meta name="description" content="探索前沿科技，分享开发心得">
+    
+    <link rel="preload" href="/assets/css/0.styles.316e7004.css" as="style"><link rel="preload" href="/assets/js/app.b367ea43.js" as="script"><link rel="preload" href="/assets/js/3.844aaa21.js" as="script"><link rel="preload" href="/assets/js/1.048230e3.js" as="script"><link rel="preload" href="/assets/js/12.16a4873d.js" as="script"><link rel="prefetch" href="/assets/js/10.9825873d.js"><link rel="prefetch" href="/assets/js/11.d60a1bea.js"><link rel="prefetch" href="/assets/js/13.a4db2495.js"><link rel="prefetch" href="/assets/js/14.029511a0.js"><link rel="prefetch" href="/assets/js/4.46b80d4d.js"><link rel="prefetch" href="/assets/js/5.871a6d11.js"><link rel="prefetch" href="/assets/js/6.ebe029bb.js"><link rel="prefetch" href="/assets/js/7.54d262ff.js"><link rel="prefetch" href="/assets/js/8.77b79dc9.js"><link rel="prefetch" href="/assets/js/9.4d12b056.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.316e7004.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-7dd95ae2><div data-v-7dd95ae2><div class="password-shadow password-wrapper-out" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>Silas`s Lab</h3> <p class="description" data-v-59e6cb88>探索前沿科技，分享开发心得</p> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><span data-v-59e6cb88>Li Maolin</span>
+          
+        <!---->
+        2025
+      </a></span></div></div> <div class="hide" data-v-7dd95ae2><header class="navbar" data-v-7dd95ae2><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Silas`s Lab</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><a href="/categories/" class="nav-link"><i class="iconfont reco-category"></i>
+  分类
+</a></div><div class="nav-item"><a href="/tags/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      项目
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/SELLYL" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="/projects/" class="nav-link"><i class="undefined"></i>
+  开源项目
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-7dd95ae2></div> <aside class="sidebar" data-v-7dd95ae2><div class="personal-info-wrapper" data-v-1fad0c41 data-v-7dd95ae2><img src="/avatar.png" alt="author-avatar" class="personal-img" data-v-1fad0c41> <h3 class="name" data-v-1fad0c41>
+    Li Maolin
+  </h3> <div class="num" data-v-1fad0c41><div data-v-1fad0c41><h3 data-v-1fad0c41>3</h3> <h6 data-v-1fad0c41>Articles</h6></div> <div data-v-1fad0c41><h3 data-v-1fad0c41>6</h3> <h6 data-v-1fad0c41>Tags</h6></div></div> <ul class="social-links" data-v-1fad0c41><li class="social-item" data-v-1fad0c41><i class="iconfont reco-github" style="color:#849b87;" data-v-1fad0c41></i></li><li class="social-item" data-v-1fad0c41><i class="iconfont reco-juejin" style="color:#f8b26a;" data-v-1fad0c41></i></li><li class="social-item" data-v-1fad0c41><i class="iconfont reco-mail" style="color:#f47e60;" data-v-1fad0c41></i></li></ul> <hr data-v-1fad0c41></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><a href="/categories/" class="nav-link"><i class="iconfont reco-category"></i>
+  分类
+</a></div><div class="nav-item"><a href="/tags/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="undefined"></i>
+      项目
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/SELLYL" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="/projects/" class="nav-link"><i class="undefined"></i>
+  开源项目
+</a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>C++新特性构建线程池</h3> <!----> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><span data-v-59e6cb88>Li Maolin</span>
+          
+        <!---->
+        2025
+      </a></span></div></div> <div data-v-7dd95ae2><div data-v-7dd95ae2><main class="page" style="padding-right:0;"><section style="display:;"><div class="page-title"><h1 class="title">C++新特性构建线程池</h1> <div data-v-8a445198><i class="iconfont reco-account" data-v-8a445198><span data-v-8a445198>Li Maolin</span></i> <i class="iconfont reco-date" data-v-8a445198><span data-v-8a445198>10/18/2025</span></i> <!----> <i class="tags iconfont reco-tag" data-v-8a445198><span class="tag-item" data-v-8a445198>C++</span><span class="tag-item" data-v-8a445198>C++新特性</span><span class="tag-item" data-v-8a445198>多线程</span><span class="tag-item" data-v-8a445198>后端</span></i></div></div> <div class="theme-reco-content content__default"><h2 id="c-新特性线程池"><a href="#c-新特性线程池" class="header-anchor">#</a> C++新特性线程池</h2> <h3 id="thread-pool-头文件"><a href="#thread-pool-头文件" class="header-anchor">#</a> Thread_Pool 头文件</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">THREAD_POOL_H</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">THREAD_POOL_H</span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;queue&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;thread&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;mutex&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;condition_variable&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;future&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;functional&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdexcept&gt;</span></span>
+
+<span class="token keyword">class</span> <span class="token class-name">ThreadPool</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">ThreadPool</span><span class="token punctuation">(</span>size_t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">F</span><span class="token punctuation">,</span> <span class="token keyword">class</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> Args<span class="token operator">&gt;</span>
+    <span class="token keyword">auto</span> <span class="token function">enqueue</span><span class="token punctuation">(</span>F<span class="token operator">&amp;&amp;</span> f<span class="token punctuation">,</span> Args<span class="token operator">&amp;&amp;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> 
+        <span class="token operator">-&gt;</span> std<span class="token double-colon punctuation">::</span>future<span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">std</span><span class="token double-colon punctuation">::</span>result_of<span class="token operator">&lt;</span><span class="token function">F</span><span class="token punctuation">(</span>Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+        
+    <span class="token operator">~</span><span class="token function">ThreadPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">private</span><span class="token operator">:</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>thread<span class="token operator">&gt;</span> workers<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>queue<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>function<span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&gt;&gt;</span> tasks<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>mutex queue_mutex<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>condition_variable condition<span class="token punctuation">;</span>
+    <span class="token keyword">bool</span> stop<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+</code></pre></div><h3 id="thread-pool-实现"><a href="#thread-pool-实现" class="header-anchor">#</a> Thread_Pool 实现</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&quot;ThreadPool.h&quot;</span></span>
+
+<span class="token class-name">ThreadPool</span><span class="token double-colon punctuation">::</span><span class="token function">ThreadPool</span><span class="token punctuation">(</span>size_t threads<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">stop</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> threads<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        workers<span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                std<span class="token double-colon punctuation">::</span>function<span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&gt;</span> task<span class="token punctuation">;</span>
+                <span class="token punctuation">{</span>
+                    std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">-&gt;</span>queue_mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">this</span><span class="token operator">-&gt;</span>condition<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span>lock<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> 
+                        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token operator">-&gt;</span>stop <span class="token operator">||</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token operator">-&gt;</span>tasks<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+                    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">-&gt;</span>stop <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token operator">-&gt;</span>tasks<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+                    
+                    task <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">move</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">-&gt;</span>tasks<span class="token punctuation">.</span><span class="token function">front</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">this</span><span class="token operator">-&gt;</span>tasks<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token function">task</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token class-name">F</span><span class="token punctuation">,</span> <span class="token keyword">class</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> Args<span class="token operator">&gt;</span>
+<span class="token keyword">auto</span> <span class="token class-name">ThreadPool</span><span class="token double-colon punctuation">::</span><span class="token function">enqueue</span><span class="token punctuation">(</span>F<span class="token operator">&amp;&amp;</span> f<span class="token punctuation">,</span> Args<span class="token operator">&amp;&amp;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> 
+    <span class="token operator">-&gt;</span> std<span class="token double-colon punctuation">::</span>future<span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">std</span><span class="token double-colon punctuation">::</span>result_of<span class="token operator">&lt;</span><span class="token function">F</span><span class="token punctuation">(</span>Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">using</span> return_type <span class="token operator">=</span> <span class="token keyword">typename</span> <span class="token class-name">std</span><span class="token double-colon punctuation">::</span>result_of<span class="token operator">&lt;</span><span class="token function">F</span><span class="token punctuation">(</span>Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> task <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">make_shared</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>packaged_task<span class="token operator">&lt;</span><span class="token function">return_type</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&gt;&gt;</span></span></span><span class="token punctuation">(</span>
+        std<span class="token double-colon punctuation">::</span><span class="token function">bind</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>F<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>Args<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    std<span class="token double-colon punctuation">::</span>future<span class="token operator">&lt;</span>return_type<span class="token operator">&gt;</span> res <span class="token operator">=</span> task<span class="token operator">-&gt;</span><span class="token function">get_future</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">{</span>
+        std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>queue_mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>stop<span class="token punctuation">)</span> <span class="token keyword">throw</span> std<span class="token double-colon punctuation">::</span><span class="token function">runtime_error</span><span class="token punctuation">(</span><span class="token string">&quot;enqueue on stopped ThreadPool&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        tasks<span class="token punctuation">.</span><span class="token function">emplace</span><span class="token punctuation">(</span><span class="token punctuation">[</span>task<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">(</span><span class="token operator">*</span>task<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    condition<span class="token punctuation">.</span><span class="token function">notify_one</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token class-name">ThreadPool</span><span class="token double-colon punctuation">::</span><span class="token operator">~</span><span class="token function">ThreadPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">{</span>
+        std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>queue_mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        stop <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    condition<span class="token punctuation">.</span><span class="token function">notify_all</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>thread <span class="token operator">&amp;</span>worker <span class="token operator">:</span> workers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        worker<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="测试代码"><a href="#测试代码" class="header-anchor">#</a> 测试代码</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;chrono&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&quot;ThreadPool.h&quot;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ThreadPool <span class="token function">pool</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>future<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;&gt;</span> results<span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">8</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        results<span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span>pool<span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;hello &quot;</span> <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+            std<span class="token double-colon punctuation">::</span>this_thread<span class="token double-colon punctuation">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token function">seconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;world &quot;</span> <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> i <span class="token operator">*</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">auto</span><span class="token operator">&amp;&amp;</span> result <span class="token operator">:</span> results<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> result<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token char">' '</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="emplace-back-详解"><a href="#emplace-back-详解" class="header-anchor">#</a> emplace_back 详解</h3> <p><code>emplace_back</code> 是 C++11 引入的 <code>std::vector</code> 成员函数，用于在容器末尾直接构造元素，而不是先构造再拷贝或移动。</p> <div class="language-cpp extra-class"><pre class="language-cpp"><code>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>MyClass<span class="token operator">&gt;</span> vec<span class="token punctuation">;</span>
+vec<span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span>arg1<span class="token punctuation">,</span> arg2<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 直接在vector内存中构造对象</span>
+</code></pre></div><h4 id="与-push-back-的比较"><a href="#与-push-back-的比较" class="header-anchor">#</a> 与 push_back 的比较</h4> <table><thead><tr><th style="text-align:left;">特性</th> <th style="text-align:left;">emplace_back</th> <th style="text-align:left;">push_back</th></tr></thead> <tbody><tr><td style="text-align:left;">参数</td> <td style="text-align:left;">构造元素所需的参数</td> <td style="text-align:left;">已构造的对象或临时对象</td></tr> <tr><td style="text-align:left;">构造方式</td> <td style="text-align:left;">直接在容器内存中构造</td> <td style="text-align:left;">先构造对象，再移动或拷贝到容器</td></tr> <tr><td style="text-align:left;">效率</td> <td style="text-align:left;">通常更高(避免临时对象创建/移动)</td> <td style="text-align:left;">可能低效(需要构造+移动/拷贝)</td></tr> <tr><td style="text-align:left;">C++版本</td> <td style="text-align:left;">C++11引入</td> <td style="text-align:left;">C++98就有</td></tr></tbody></table> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token comment">// 使用 push_back</span>
+Person <span class="token function">temp</span><span class="token punctuation">(</span><span class="token string">&quot;Alice&quot;</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+people<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>temp<span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment">// 1次构造 + 1次拷贝构造</span>
+people<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token function">Person</span><span class="token punctuation">(</span><span class="token string">&quot;Bob&quot;</span><span class="token punctuation">,</span> <span class="token number">25</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1次构造 + 1次移动构造</span>
+
+<span class="token comment">// 使用 emplace_back</span>
+people<span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span><span class="token string">&quot;Charlie&quot;</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 仅1次构造</span>
+</code></pre></div><h3 id="复杂语法解析"><a href="#复杂语法解析" class="header-anchor">#</a> 复杂语法解析</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token keyword">auto</span> <span class="token function">enqueue</span><span class="token punctuation">(</span>F<span class="token operator">&amp;&amp;</span> f<span class="token punctuation">,</span> Args<span class="token operator">&amp;&amp;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> 
+        <span class="token operator">-&gt;</span> std<span class="token double-colon punctuation">::</span>future<span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">std</span><span class="token double-colon punctuation">::</span>result_of<span class="token operator">&lt;</span><span class="token function">F</span><span class="token punctuation">(</span>Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+使用 C++11 的尾置返回类型语法
+
+实际返回类型是 std::future&lt;typename std::result_of&lt;F(Args...)&gt;::type&gt;
+
+参数列表:
+
+F&amp;&amp; f: 一个通用引用（forwarding reference）参数，可以接受任何可调用对象
+
+Args&amp;&amp;... args: 可变参数的通用引用，可以接受任意数量和类型的参数
+
+返回类型详解:
+
+std::result_of&lt;F(Args...)&gt;::type:
+使用 std::result_of 类型特征来推导调用 f 并传入 args... 的返回类型
+在 C++17 中已弃用，建议使用 std::invoke_result_t 替代
+
+std::future&lt;...&gt;:
+将返回类型包装在 std::future 中，表示异步操作的结果
+*/</span>
+</code></pre></div></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div></main></div> <!----></div> <ul class="sub-sidebar sub-sidebar-wrapper" style="width:0;" data-v-b57cc07c data-v-7dd95ae2></ul></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/assets/js/app.b367ea43.js" defer></script><script src="/assets/js/3.844aaa21.js" defer></script><script src="/assets/js/1.048230e3.js" defer></script><script src="/assets/js/12.16a4873d.js" defer></script>
+  </body>
+</html>
